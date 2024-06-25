@@ -1,5 +1,5 @@
 {% set name = "emoji" %}
-{% set version = "2.2.0" %}
+{% set version = "2.12.1" %}
 
 package:
   name: {{ name|lower }}
@@ -10,16 +10,17 @@ source:
   sha256: a2986c21e4aba6b9870df40ef487a17be863cb7778dcf1c01e25917b7cd210bb
 
 build:
-  noarch: python
   number: 0
-  script: {{ PYTHON }} -m pip install . --no-deps -vv
+  script: {{ PYTHON }} -m pip install . --no-deps --no-build-isolation -vv
 
 requirements:
   host:
-    - python >=2.7
+    - python
     - pip
+    - setuptools
+    - wheel
   run:
-    - python >=2.7
+    - python
 
 test:
   imports:
@@ -31,7 +32,10 @@ about:
   license_family: BSD
   license_file: LICENSE.txt
   summary: Emoji for Python
-
+  description: |
+    The main purpose of this package is converting Unicode emoji to emoji names and vice versa with emojize() and
+    demojize().
+  doc_url: https://carpedm20.github.io/emoji/docs/
   dev_url: https://github.com/carpedm20/emoji/
 
 extra:
