@@ -21,6 +21,7 @@ requirements:
     - wheel
   run:
     - python
+    - typing-extensions
 
 test:
   imports:
