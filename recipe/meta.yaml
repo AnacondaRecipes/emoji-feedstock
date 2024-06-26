@@ -26,6 +26,14 @@ requirements:
 test:
   imports:
     - emoji
+  source_files:
+    - tests
+  requires:
+    - pip
+    - pytest
+  commands:
+    - pip check
+    - pytest -v tests
 
 about:
   home: https://github.com/carpedm20/emoji/
