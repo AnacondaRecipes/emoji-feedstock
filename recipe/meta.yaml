@@ -26,7 +26,7 @@ requirements:
     - wheel
   run:
     - python
-    - typing-extensions
+    - typing-extensions >=4.7.0
 
 # skipping tests that require testutils
 {% set tests_to_skip = 'test_emojize_languages or test_demojize_languages' %}
