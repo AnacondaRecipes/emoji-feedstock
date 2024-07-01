@@ -1,0 +1,67 @@
+From 80f38cdca471301524e8de18e2dc22d90f0f35f4 Mon Sep 17 00:00:00 2001
+From: Jack Olivieri <jolivieri@anaconda.com>
+Date: Wed, 26 Jun 2024 17:20:50 +0200
+Subject: [PATCH] factor out testutils
+
+---
+ tests/test_core.py          | 2 +-
+ tests/test_nfkc.py          | 2 +-
+ tests/test_unicode_codes.py | 2 +-
+ tests/test_versions.py      | 2 +-
+ 4 files changed, 4 insertions(+), 4 deletions(-)
+
+diff --git a/tests/test_core.py b/tests/test_core.py
+index adc0a19..878231c 100644
+--- a/tests/test_core.py
++++ b/tests/test_core.py
+@@ -6,7 +6,7 @@ from typing import Any, Callable, Dict, List, Tuple, Union
+ from typing_extensions import Literal
+ import pytest
+ import emoji.unicode_codes
+-from testutils import ascii, normalize, all_language_packs, all_language_and_alias_packs, get_emoji_unicode_dict
++#from testutils import ascii, normalize, all_language_packs, all_language_and_alias_packs, get_emoji_unicode_dict
+ 
+ 
+ def test_emojize_name_only():
+diff --git a/tests/test_nfkc.py b/tests/test_nfkc.py
+index 4b4c0b4..714a551 100644
+--- a/tests/test_nfkc.py
++++ b/tests/test_nfkc.py
+@@ -1,7 +1,7 @@
+ """Unittests for canonically equivalent Unicode sequences"""
+ 
+ import emoji
+-from testutils import is_normalized
++#from testutils import is_normalized
+ 
+ def test_database_normalized():
+     # Test if all names in EMOJI_DATA are in NFKC form
+diff --git a/tests/test_unicode_codes.py b/tests/test_unicode_codes.py
+index 48b7414..b59ee69 100644
+--- a/tests/test_unicode_codes.py
++++ b/tests/test_unicode_codes.py
+@@ -2,7 +2,7 @@
+ 
+ from typing import Set
+ import emoji.unicode_codes
+-from testutils import get_language_packs, get_aliases_unicode_dict, get_emoji_unicode_dict
++#from testutils import get_language_packs, get_aliases_unicode_dict, get_emoji_unicode_dict
+ 
+ 
+ def test_emoji_english_names():
+diff --git a/tests/test_versions.py b/tests/test_versions.py
+index 1c829ea..eeb600c 100644
+--- a/tests/test_versions.py
++++ b/tests/test_versions.py
+@@ -3,7 +3,7 @@
+ from typing import Any, Dict, List
+ import pytest
+ import emoji.unicode_codes
+-from testutils import all_language_packs
++#from testutils import all_language_packs
+ 
+ def test_emoji_versions_complete_emojize():
+     # Check that every emoji has a valid version
+-- 
+2.40.1
+

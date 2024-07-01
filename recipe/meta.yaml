@@ -1,5 +1,5 @@
 {% set name = "emoji" %}
-{% set version = "2.2.0" %}
+{% set version = "2.12.1" %}
 
 package:
   name: {{ name|lower }}
@@ -7,23 +7,46 @@ package:
 
 source:
   url: https://pypi.io/packages/source/{{ name[0] }}/{{ name }}/{{ name }}-{{ version }}.tar.gz
-  sha256: a2986c21e4aba6b9870df40ef487a17be863cb7778dcf1c01e25917b7cd210bb
+  sha256: 4aa0488817691aa58d83764b6c209f8a27c0b3ab3f89d1b8dceca1a62e4973eb
+  patches:
+    - 0001-factor-out-testutils.patch
 
 build:
-  noarch: python
   number: 0
-  script: {{ PYTHON }} -m pip install . --no-deps -vv
-
+  script: {{ PYTHON }} -m pip install . --no-deps --no-build-isolation -vv
+        skip: True  # [py<37]
 requirements:
+  build:
+    - patch     # [not win]
+    - m2-patch  # [win]
   host:
-    - python >=2.7
+    - python
     - pip
+    - setuptools
+    - wheel
   run:
-    - python >=2.7
+    - python
+    - typing-extensions >=4.7.0
+
+# skipping tests that require testutils
+{% set tests_to_skip = 'test_emojize_languages or test_demojize_languages' %}
+{% set tests_to_skip = tests_to_skip + ' or test_emojize_name_only' %}
+{% set tests_to_skip = tests_to_skip + ' or test_regular_expression_minimal or test_emojize_variant or test_database_normalized' %}
+{% set tests_to_skip = tests_to_skip + ' or test_emoji_versions_complete_emojize or test_emoji_versions_complete_demojize' %}
+{% set tests_to_skip = tests_to_skip + ' or test_emoji_english_names or test_compare_normal_and_aliases or test_get_emoji_by_name' %}
+{% set tests_to_skip = tests_to_skip + ' or test_get_emoji_by_alias' %}
 
 test:
   imports:
     - emoji
+  source_files:
+    - tests
+  requires:
+    - pip
+    - pytest >=7.4.4
+  commands:
+    - pip check
+    - pytest -v -k "not ({{ tests_to_skip }})" tests
 
 about:
   home: https://github.com/carpedm20/emoji/
@@ -31,9 +54,14 @@ about:
   license_family: BSD
   license_file: LICENSE.txt
   summary: Emoji for Python
-
+  description: |
+    The main purpose of this package is converting Unicode emoji to emoji names and vice versa with emojize() and
+    demojize().
+  doc_url: https://carpedm20.github.io/emoji/docs/
   dev_url: https://github.com/carpedm20/emoji/
 
 extra:
   recipe-maintainers:
     - synapticarbors
+  skip-lints:
+    - host_section_needs_exact_pinnings
