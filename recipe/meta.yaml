@@ -43,7 +43,7 @@ test:
     - tests
   requires:
     - pip
-    - pytest
+    - pytest >=7.4.4
   commands:
     - pip check
     - pytest -v -k "not ({{ tests_to_skip }})" tests
